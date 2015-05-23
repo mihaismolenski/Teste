@@ -32,6 +32,7 @@ namespace Tema3Sem2.Repositories
                     raspuns.IdIntrebare = idIntrebare;
                     raspuns.IdTest = idTest;
                     raspuns.IdRaspuns = r;
+                    dc.RaspunsCursants.Add(raspuns);
                 }
                 dc.SaveChanges();
             }

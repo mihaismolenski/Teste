@@ -39,35 +39,41 @@ namespace Tema3Sem2.Repositories
                 while (count < 10)
                 {
                     int r = rnd.Next(intrebari.Count);
+                    var q = new Intrebare();
+                    q.IdDomeniu = intrebari[r].IdDomeniu;
+                    q.IdIntrebare = intrebari[r].IdIntrebare;
+                    q.IdSubdomeniu = intrebari[r].IdSubdomeniu;
+                    q.Text = intrebari[r].Text;
+                    q.Tip = intrebari[r].Tip;
 
                     //daca e simpla
-                    if (simple < 3 && intrebari[r].Tip == 1)
+                    if (simple < 3 && q.Tip == 1)
                     {
-                        if (ct.Intrebari.Contains(intrebari[r]))
+                        if (!ct.Intrebari.Contains(q))
                         {
                             var list = new List<VariantaRaspun>();
-                            list = dc.VariantaRaspuns.Where(a => a.IdIntrebare == intrebari[r].IdIntrebare).ToList();
+                            list = dc.VariantaRaspuns.Where(a => a.IdIntrebare == q.IdIntrebare).ToList();
                             foreach (var l in list)
                             {
-
+                                q.VariantaRaspuns.Add(l);
                             }
-                            ct.Intrebari.Add(intrebari[r]);
+                            ct.Intrebari.Add(q);
                             count++;
                             simple++;
                         }
                     }
                     //daca e multipla
-                    else if (multiple < 7 && intrebari[r].Tip == 2)
+                    else if (multiple < 7 && q.Tip == 2)
                     {
-                        if (ct.Intrebari.Contains(intrebari[r]))
+                        if (!ct.Intrebari.Contains(q))
                         {
                             var list = new List<VariantaRaspun>();
-                            list = dc.VariantaRaspuns.Where(a => a.IdIntrebare == intrebari[r].IdIntrebare).ToList();
+                            list = dc.VariantaRaspuns.Where(a => a.IdIntrebare == q.IdIntrebare).ToList();
                             foreach (var l in list)
                             {
 
                             }
-                            ct.Intrebari.Add(intrebari[r]);
+                            ct.Intrebari.Add(q);
                             count++;
                             multiple++;
                         }

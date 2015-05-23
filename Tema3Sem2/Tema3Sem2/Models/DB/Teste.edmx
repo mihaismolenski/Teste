@@ -36,7 +36,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdTest" Type="int" Nullable="false" />
           <Property Name="IdIntrebare" Type="int" Nullable="false" />
           <Property Name="IdRaspuns" Type="int" Nullable="false" />
@@ -287,7 +287,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdTest" Type="Int32" Nullable="false" />
           <Property Name="IdIntrebare" Type="Int32" Nullable="false" />
           <Property Name="IdRaspuns" Type="Int32" Nullable="false" />
@@ -423,7 +423,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
