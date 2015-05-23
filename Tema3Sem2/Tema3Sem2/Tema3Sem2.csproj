@@ -43,7 +43,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -188,7 +191,46 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\DB\Cursant.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Domeniu.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Intrebare.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\RaspunsCursant.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Subdomeniu.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Test.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Teste.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Teste.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Teste.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Teste.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Teste.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\VariantaRaspun.cs">
+      <DependentUpon>Teste.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CursantHelper.cs" />
+    <Compile Include="Repositories\DomeniuHelper.cs" />
+    <Compile Include="Repositories\SubdomeniuHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -247,6 +289,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\DB\Teste.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Teste.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB\Teste.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Teste.edmx</DependentUpon>
+      <LastGenOutput>Teste.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DB\Teste.edmx.diagram">
+      <DependentUpon>Teste.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\DB\Teste.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Teste.edmx</DependentUpon>
+      <LastGenOutput>Teste.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -307,6 +366,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

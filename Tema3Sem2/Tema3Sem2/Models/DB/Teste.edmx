@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TesteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cursant">
+          <Key>
+            <PropertyRef Name="IdCursant" />
+          </Key>
+          <Property Name="IdCursant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hint" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Domeniu">
+          <Key>
+            <PropertyRef Name="IdDomeniu" />
+          </Key>
+          <Property Name="IdDomeniu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nume" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descriere" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Intrebare">
+          <Key>
+            <PropertyRef Name="IdIntrebare" />
+          </Key>
+          <Property Name="IdIntrebare" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDomeniu" Type="int" />
+          <Property Name="IdSubdomeniu" Type="int" />
+          <Property Name="Text" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tip" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RaspunsCursant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdTest" Type="int" Nullable="false" />
+          <Property Name="IdIntrebare" Type="int" Nullable="false" />
+          <Property Name="IdRaspuns" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subdomeniu">
+          <Key>
+            <PropertyRef Name="IdSubdomeniu" />
+          </Key>
+          <Property Name="IdSubdomeniu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDomeniu" Type="int" />
+          <Property Name="Nume" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descriere" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="IdTest" />
+          </Key>
+          <Property Name="IdTest" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCursant" Type="int" />
+        </EntityType>
+        <EntityType Name="VariantaRaspuns">
+          <Key>
+            <PropertyRef Name="IdRaspuns" />
+          </Key>
+          <Property Name="IdRaspuns" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdIntrebare" Type="int" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Corect" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Intrebare_Domeniu">
+          <End Role="Domeniu" Type="Self.Domeniu" Multiplicity="0..1" />
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Principal>
+            <Dependent Role="Intrebare">
+              <PropertyRef Name="IdDomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Intrebare_Subdomeniu">
+          <End Role="Subdomeniu" Type="Self.Subdomeniu" Multiplicity="0..1" />
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subdomeniu">
+              <PropertyRef Name="IdSubdomeniu" />
+            </Principal>
+            <Dependent Role="Intrebare">
+              <PropertyRef Name="IdSubdomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Raspuns_Raspuns">
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="0..1" />
+          <End Role="VariantaRaspuns" Type="Self.VariantaRaspuns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intrebare">
+              <PropertyRef Name="IdIntrebare" />
+            </Principal>
+            <Dependent Role="VariantaRaspuns">
+              <PropertyRef Name="IdIntrebare" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_Intrebare">
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intrebare">
+              <PropertyRef Name="IdIntrebare" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdIntrebare" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_RaspunsCursant">
+          <End Role="Test" Type="Self.Test" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="IdTest" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdTest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_VariantaRaspuns">
+          <End Role="VariantaRaspuns" Type="Self.VariantaRaspuns" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariantaRaspuns">
+              <PropertyRef Name="IdRaspuns" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdRaspuns" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subdomeniu_Domeniu">
+          <End Role="Domeniu" Type="Self.Domeniu" Multiplicity="0..1" />
+          <End Role="Subdomeniu" Type="Self.Subdomeniu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Principal>
+            <Dependent Role="Subdomeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_Test">
+          <End Role="Cursant" Type="Self.Cursant" Multiplicity="0..1" />
+          <End Role="Test" Type="Self.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursant">
+              <PropertyRef Name="IdCursant" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="IdCursant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TesteModelStoreContainer">
+          <EntitySet Name="Cursant" EntityType="Self.Cursant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Domeniu" EntityType="Self.Domeniu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Intrebare" EntityType="Self.Intrebare" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RaspunsCursant" EntityType="Self.RaspunsCursant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subdomeniu" EntityType="Self.Subdomeniu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Test" EntityType="Self.Test" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VariantaRaspuns" EntityType="Self.VariantaRaspuns" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Intrebare_Domeniu" Association="Self.FK_Intrebare_Domeniu">
+            <End Role="Domeniu" EntitySet="Domeniu" />
+            <End Role="Intrebare" EntitySet="Intrebare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Intrebare_Subdomeniu" Association="Self.FK_Intrebare_Subdomeniu">
+            <End Role="Subdomeniu" EntitySet="Subdomeniu" />
+            <End Role="Intrebare" EntitySet="Intrebare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Raspuns_Raspuns" Association="Self.FK_Raspuns_Raspuns">
+            <End Role="Intrebare" EntitySet="Intrebare" />
+            <End Role="VariantaRaspuns" EntitySet="VariantaRaspuns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_Intrebare" Association="Self.FK_RaspunsCursant_Intrebare">
+            <End Role="Intrebare" EntitySet="Intrebare" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_RaspunsCursant" Association="Self.FK_RaspunsCursant_RaspunsCursant">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_VariantaRaspuns" Association="Self.FK_RaspunsCursant_VariantaRaspuns">
+            <End Role="VariantaRaspuns" EntitySet="VariantaRaspuns" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subdomeniu_Domeniu" Association="Self.FK_Subdomeniu_Domeniu">
+            <End Role="Domeniu" EntitySet="Domeniu" />
+            <End Role="Subdomeniu" EntitySet="Subdomeniu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_Test" Association="Self.FK_Test_Test">
+            <End Role="Cursant" EntitySet="Cursant" />
+            <End Role="Test" EntitySet="Test" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TesteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cursant">
+          <Key>
+            <PropertyRef Name="IdCursant" />
+          </Key>
+          <Property Name="IdCursant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Hint" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tests" Relationship="Self.FK_Test_Test" FromRole="Cursant" ToRole="Test" />
+        </EntityType>
+        <EntityType Name="Domeniu">
+          <Key>
+            <PropertyRef Name="IdDomeniu" />
+          </Key>
+          <Property Name="IdDomeniu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descriere" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Intrebares" Relationship="Self.FK_Intrebare_Domeniu" FromRole="Domeniu" ToRole="Intrebare" />
+          <NavigationProperty Name="Subdomenius" Relationship="Self.FK_Subdomeniu_Domeniu" FromRole="Domeniu" ToRole="Subdomeniu" />
+        </EntityType>
+        <EntityType Name="Intrebare">
+          <Key>
+            <PropertyRef Name="IdIntrebare" />
+          </Key>
+          <Property Name="IdIntrebare" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDomeniu" Type="Int32" />
+          <Property Name="IdSubdomeniu" Type="Int32" />
+          <Property Name="Text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tip" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Domeniu" Relationship="Self.FK_Intrebare_Domeniu" FromRole="Intrebare" ToRole="Domeniu" />
+          <NavigationProperty Name="Subdomeniu" Relationship="Self.FK_Intrebare_Subdomeniu" FromRole="Intrebare" ToRole="Subdomeniu" />
+          <NavigationProperty Name="VariantaRaspuns" Relationship="Self.FK_Raspuns_Raspuns" FromRole="Intrebare" ToRole="VariantaRaspuns" />
+          <NavigationProperty Name="RaspunsCursants" Relationship="Self.FK_RaspunsCursant_Intrebare" FromRole="Intrebare" ToRole="RaspunsCursant" />
+        </EntityType>
+        <EntityType Name="RaspunsCursant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdTest" Type="Int32" Nullable="false" />
+          <Property Name="IdIntrebare" Type="Int32" Nullable="false" />
+          <Property Name="IdRaspuns" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Intrebare" Relationship="Self.FK_RaspunsCursant_Intrebare" FromRole="RaspunsCursant" ToRole="Intrebare" />
+          <NavigationProperty Name="Test" Relationship="Self.FK_RaspunsCursant_RaspunsCursant" FromRole="RaspunsCursant" ToRole="Test" />
+          <NavigationProperty Name="VariantaRaspun" Relationship="Self.FK_RaspunsCursant_VariantaRaspuns" FromRole="RaspunsCursant" ToRole="VariantaRaspuns" />
+        </EntityType>
+        <EntityType Name="Subdomeniu">
+          <Key>
+            <PropertyRef Name="IdSubdomeniu" />
+          </Key>
+          <Property Name="IdSubdomeniu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDomeniu" Type="Int32" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descriere" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Domeniu" Relationship="Self.FK_Subdomeniu_Domeniu" FromRole="Subdomeniu" ToRole="Domeniu" />
+          <NavigationProperty Name="Intrebares" Relationship="Self.FK_Intrebare_Subdomeniu" FromRole="Subdomeniu" ToRole="Intrebare" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="IdTest" />
+          </Key>
+          <Property Name="IdTest" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCursant" Type="Int32" />
+          <NavigationProperty Name="Cursant" Relationship="Self.FK_Test_Test" FromRole="Test" ToRole="Cursant" />
+          <NavigationProperty Name="RaspunsCursants" Relationship="Self.FK_RaspunsCursant_RaspunsCursant" FromRole="Test" ToRole="RaspunsCursant" />
+        </EntityType>
+        <EntityType Name="VariantaRaspun">
+          <Key>
+            <PropertyRef Name="IdRaspuns" />
+          </Key>
+          <Property Name="IdRaspuns" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdIntrebare" Type="Int32" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Corect" Type="Boolean" />
+          <NavigationProperty Name="Intrebare" Relationship="Self.FK_Raspuns_Raspuns" FromRole="VariantaRaspuns" ToRole="Intrebare" />
+          <NavigationProperty Name="RaspunsCursants" Relationship="Self.FK_RaspunsCursant_VariantaRaspuns" FromRole="VariantaRaspuns" ToRole="RaspunsCursant" />
+        </EntityType>
+        <Association Name="FK_Test_Test">
+          <End Role="Cursant" Type="Self.Cursant" Multiplicity="0..1" />
+          <End Role="Test" Type="Self.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursant">
+              <PropertyRef Name="IdCursant" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="IdCursant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Intrebare_Domeniu">
+          <End Role="Domeniu" Type="Self.Domeniu" Multiplicity="0..1" />
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Principal>
+            <Dependent Role="Intrebare">
+              <PropertyRef Name="IdDomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subdomeniu_Domeniu">
+          <End Role="Domeniu" Type="Self.Domeniu" Multiplicity="0..1" />
+          <End Role="Subdomeniu" Type="Self.Subdomeniu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Principal>
+            <Dependent Role="Subdomeniu">
+              <PropertyRef Name="IdDomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Intrebare_Subdomeniu">
+          <End Role="Subdomeniu" Type="Self.Subdomeniu" Multiplicity="0..1" />
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subdomeniu">
+              <PropertyRef Name="IdSubdomeniu" />
+            </Principal>
+            <Dependent Role="Intrebare">
+              <PropertyRef Name="IdSubdomeniu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Raspuns_Raspuns">
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="0..1" />
+          <End Role="VariantaRaspuns" Type="Self.VariantaRaspun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intrebare">
+              <PropertyRef Name="IdIntrebare" />
+            </Principal>
+            <Dependent Role="VariantaRaspuns">
+              <PropertyRef Name="IdIntrebare" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_Intrebare">
+          <End Role="Intrebare" Type="Self.Intrebare" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Intrebare">
+              <PropertyRef Name="IdIntrebare" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdIntrebare" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_RaspunsCursant">
+          <End Role="Test" Type="Self.Test" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="IdTest" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdTest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaspunsCursant_VariantaRaspuns">
+          <End Role="VariantaRaspuns" Type="Self.VariantaRaspun" Multiplicity="1" />
+          <End Role="RaspunsCursant" Type="Self.RaspunsCursant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariantaRaspuns">
+              <PropertyRef Name="IdRaspuns" />
+            </Principal>
+            <Dependent Role="RaspunsCursant">
+              <PropertyRef Name="IdRaspuns" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TesteEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cursants" EntityType="Self.Cursant" />
+          <EntitySet Name="Domenius" EntityType="Self.Domeniu" />
+          <EntitySet Name="Intrebares" EntityType="Self.Intrebare" />
+          <EntitySet Name="RaspunsCursants" EntityType="Self.RaspunsCursant" />
+          <EntitySet Name="Subdomenius" EntityType="Self.Subdomeniu" />
+          <EntitySet Name="Tests" EntityType="Self.Test" />
+          <EntitySet Name="VariantaRaspuns" EntityType="Self.VariantaRaspun" />
+          <AssociationSet Name="FK_Test_Test" Association="Self.FK_Test_Test">
+            <End Role="Cursant" EntitySet="Cursants" />
+            <End Role="Test" EntitySet="Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Intrebare_Domeniu" Association="Self.FK_Intrebare_Domeniu">
+            <End Role="Domeniu" EntitySet="Domenius" />
+            <End Role="Intrebare" EntitySet="Intrebares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subdomeniu_Domeniu" Association="Self.FK_Subdomeniu_Domeniu">
+            <End Role="Domeniu" EntitySet="Domenius" />
+            <End Role="Subdomeniu" EntitySet="Subdomenius" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Intrebare_Subdomeniu" Association="Self.FK_Intrebare_Subdomeniu">
+            <End Role="Subdomeniu" EntitySet="Subdomenius" />
+            <End Role="Intrebare" EntitySet="Intrebares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Raspuns_Raspuns" Association="Self.FK_Raspuns_Raspuns">
+            <End Role="Intrebare" EntitySet="Intrebares" />
+            <End Role="VariantaRaspuns" EntitySet="VariantaRaspuns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_Intrebare" Association="Self.FK_RaspunsCursant_Intrebare">
+            <End Role="Intrebare" EntitySet="Intrebares" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_RaspunsCursant" Association="Self.FK_RaspunsCursant_RaspunsCursant">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaspunsCursant_VariantaRaspuns" Association="Self.FK_RaspunsCursant_VariantaRaspuns">
+            <End Role="VariantaRaspuns" EntitySet="VariantaRaspuns" />
+            <End Role="RaspunsCursant" EntitySet="RaspunsCursants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TesteModelStoreContainer" CdmEntityContainer="TesteEntities">
+          <EntitySetMapping Name="Cursants">
+            <EntityTypeMapping TypeName="TesteModel.Cursant">
+              <MappingFragment StoreEntitySet="Cursant">
+                <ScalarProperty Name="IdCursant" ColumnName="IdCursant" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Hint" ColumnName="Hint" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Domenius">
+            <EntityTypeMapping TypeName="TesteModel.Domeniu">
+              <MappingFragment StoreEntitySet="Domeniu">
+                <ScalarProperty Name="IdDomeniu" ColumnName="IdDomeniu" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Descriere" ColumnName="Descriere" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Intrebares">
+            <EntityTypeMapping TypeName="TesteModel.Intrebare">
+              <MappingFragment StoreEntitySet="Intrebare">
+                <ScalarProperty Name="IdIntrebare" ColumnName="IdIntrebare" />
+                <ScalarProperty Name="IdDomeniu" ColumnName="IdDomeniu" />
+                <ScalarProperty Name="IdSubdomeniu" ColumnName="IdSubdomeniu" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Tip" ColumnName="Tip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RaspunsCursants">
+            <EntityTypeMapping TypeName="TesteModel.RaspunsCursant">
+              <MappingFragment StoreEntitySet="RaspunsCursant">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdTest" ColumnName="IdTest" />
+                <ScalarProperty Name="IdIntrebare" ColumnName="IdIntrebare" />
+                <ScalarProperty Name="IdRaspuns" ColumnName="IdRaspuns" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subdomenius">
+            <EntityTypeMapping TypeName="TesteModel.Subdomeniu">
+              <MappingFragment StoreEntitySet="Subdomeniu">
+                <ScalarProperty Name="IdSubdomeniu" ColumnName="IdSubdomeniu" />
+                <ScalarProperty Name="IdDomeniu" ColumnName="IdDomeniu" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Descriere" ColumnName="Descriere" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tests">
+            <EntityTypeMapping TypeName="TesteModel.Test">
+              <MappingFragment StoreEntitySet="Test">
+                <ScalarProperty Name="IdTest" ColumnName="IdTest" />
+                <ScalarProperty Name="IdCursant" ColumnName="IdCursant" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VariantaRaspuns">
+            <EntityTypeMapping TypeName="TesteModel.VariantaRaspun">
+              <MappingFragment StoreEntitySet="VariantaRaspuns">
+                <ScalarProperty Name="IdRaspuns" ColumnName="IdRaspuns" />
+                <ScalarProperty Name="IdIntrebare" ColumnName="IdIntrebare" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Corect" ColumnName="Corect" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
