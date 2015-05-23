@@ -23,6 +23,7 @@ namespace Tema3Sem2.Models.DB
         public Nullable<int> IdIntrebare { get; set; }
         public string Text { get; set; }
         public Nullable<bool> Corect { get; set; }
+        public string Motivatie { get; set; }
     
         public virtual Intrebare Intrebare { get; set; }
         public virtual ICollection<RaspunsCursant> RaspunsCursants { get; set; }

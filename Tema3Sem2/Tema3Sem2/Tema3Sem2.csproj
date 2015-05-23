@@ -227,10 +227,14 @@
     <Compile Include="Models\DB\VariantaRaspun.cs">
       <DependentUpon>Teste.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CursantHelper.cs" />
     <Compile Include="Repositories\DomeniuHelper.cs" />
+    <Compile Include="Repositories\IntrebariHelper.cs" />
+    <Compile Include="Repositories\RaspunsCursantHelper.cs" />
     <Compile Include="Repositories\SubdomeniuHelper.cs" />
+    <Compile Include="Repositories\TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
