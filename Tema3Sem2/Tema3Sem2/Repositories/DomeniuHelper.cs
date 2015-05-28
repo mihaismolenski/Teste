@@ -57,5 +57,16 @@ namespace Tema3Sem2.Repositories
                 dc.SaveChanges();
             }
         }
+
+        public static List<Domeniu> GetDomenii()
+        {
+            using (var dc = new TesteEntities())
+            {
+                var result = new List<Domeniu>();
+                result = dc.Domenius.ToList();
+                return result;
+            }
+        }
+
     }
 }
