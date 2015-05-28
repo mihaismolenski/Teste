@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Check your knowledge</h2>
+<p> Domain title </p>
+
+<section>
+  <p> Timp ramas: </p>
+
+
+      @for (var i = 0; i < 10; i++)
+      {
+          using (Html.BeginForm(null, null, FormMethod.Post, new { id = "question_" + i }))
+          {
+            <p> Question </p>
+            for (var v = 1; v < 5; v++)
+            {
+                @Html.CheckBox("group["+v+"]", new { id = v }) @v<br />
+            }
+            var g = i;
+            <input type="button" value="Submit"  onclick="questionSubmit(this,@i)" />
+          }
+
+
+      }
+
+
+
+</section>
