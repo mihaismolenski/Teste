@@ -58,5 +58,20 @@ namespace Tema3Sem2.Repositories
                 dc.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Returneaza toate subdomeniile pentru un domeniu
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static List<Subdomeniu> GetSubdomeniiByDomeniuId(int id)
+        {
+            using (var dc = new TesteEntities())
+            {
+                var result = new List<Subdomeniu>();
+                result = dc.Subdomenius.Where(a=>a.IdDomeniu == id).ToList();
+                return result;
+            }
+        }
     }
 }
