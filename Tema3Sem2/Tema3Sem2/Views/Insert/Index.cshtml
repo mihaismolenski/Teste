@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Tema3Sem2.Models.DB
+@using Tema3Sem2.Models;
+@model CustomDomain
+@{
     ViewBag.Title = "Insert Questions";
 }
 <script type="text/javascript" src="@Url.Content("/Scripts/jquery-1.8.2.js")"></script>
@@ -8,20 +11,45 @@
 {
     <fieldset>
         <legend>Insert Question</legend>
+        <div id="domenii">
         <div>
-         <label for="QuestionName">Question Name:</label>
-         <input type="text" name="QuestionName" value="" />
-         @Html.ValidationMessage("questionname")
+            <select id="domeniu" name="domeniu">
+                <option value="-">Please select</option>
+                <option value="new">Add new</option>
+                @foreach (Domeniu domeniu in @Model.Domenii)
+                {
+                    <option value="@domeniu.IdDomeniu">@domeniu.Nume</option>
+                }
+            </select>
+            <div id="domeniu_block" style="display:none;">
+                <input type="text" name="new_domeniu" id="new_domeniu" />
+                <button id="submit_domeniu">Add More Fields</button>
+            </div>
+        </div>
+        <div id="subdomenii">
+            <select id="subdomeniu" name="subdomeniu">
+                <option value="-">Please select</option>
+                <option value="new">Add new</option>
+            </select>
+            <div id="subdomeniu_block" style="display:none;">
+                <input type="text" name="new_subdomeniu" id="new_subdomeniu" />
+                <button id="submit_subdomeniu">Add More Fields</button>
+            </div>
+        </div>
+        <div>
+            <label for="QuestionName">Question Name:</label>
+            <input type="text" name="QuestionName" value="" />
+        </div>
+      
+     
       </div>
       <div class="input_fields_wrap">
         <button class="add_field_button">Add More Fields</button>
-        <div><input type="text" name="mytext[]"></div>
-        @Html.ValidationMessage("raspuns")
+        <div><input type="text" name="question1"><label style="display:inline-block;"><input type="checkbox" name="answer1" />Correct? </label></div>
       </div>
       <div>
          <label for="Argumente">Argumente raspunsuri:</label>
-         <textarea name="Argumente" value="" ></textarea> 
-         @Html.ValidationMessage("argumente")
+         <textarea name="Argumente" value="" ></textarea>
       </div>
       <div>
          <label>&nbsp;</label>

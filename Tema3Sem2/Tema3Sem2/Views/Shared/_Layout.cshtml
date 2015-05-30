@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/Scripts/FormHandler.js")
+        @Scripts.Render("~/Scripts/jquery-1.8.2.js")    
     </head>
     <body>
         <header>
@@ -21,8 +23,8 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Quiz", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Insert", "Index", "Insert")</li>
+                            <li>@Html.ActionLink("Quiz", "Index", "Quiz")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
                     </nav>

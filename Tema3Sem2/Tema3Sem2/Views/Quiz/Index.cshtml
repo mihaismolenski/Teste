@@ -1,14 +1,17 @@
-﻿@{
+﻿@using Tema3Sem2.Models.DB
+@using Tema3Sem2.Models;
+@model CustomDomain
+@{
     ViewBag.Title = "Index";
 }
 
 <h2>Choose questions domain:</h2>
 
 <div class="domains">
-    <div id="basic">
-        @Html.ActionLink("Dot.net basic", "Test", "Quiz")
-    </div>
-    <div id="special">
-        @Html.ActionLink("Special .net framework", "Test", "Quiz")
-    </div>
+    @foreach (Domeniu domeniu in @Model.Domenii)
+    {
+        <div>
+            @Html.ActionLink(domeniu.Nume, "Test", "Quiz")
+        </div>
+    }
 </div>
