@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Tema3Sem2.Models.DB
+@using Tema3Sem2.Models;
+@model CustomDomain
+@{
     ViewBag.Title = "Insert Questions";
 }
 <script type="text/javascript" src="@Url.Content("/Scripts/jquery-1.8.2.js")"></script>
@@ -13,6 +16,10 @@
             <select id="domeniu" name="domeniu">
                 <option value="-">Please select</option>
                 <option value="new">Add new</option>
+                @foreach (Domeniu domeniu in @Model.Domenii)
+                {
+                    <option value="@domeniu.IdDomeniu">@domeniu.Nume</option>
+                }
             </select>
             <div id="domeniu_block" style="display:none;">
                 <input type="text" name="new_domeniu" id="new_domeniu" />

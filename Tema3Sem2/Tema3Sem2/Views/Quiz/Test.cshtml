@@ -1,30 +1,94 @@
-﻿@{
+﻿@using Tema3Sem2.Models
+@using Tema3Sem2.Repositories;
+@model CustomTest
+
+@{
     ViewBag.Title = "Test";
 }
 
 <h2>Check your knowledge</h2>
 <p> Domain title </p>
-
+<div>Remaining time <span id="time"></span> minutes!</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <section>
-  <p> Timp ramas: </p>
+   
+        <p> @Model.IdCursant </p>
+        @{int index=1;}
+        @foreach (var intrebare in @Model.Intrebari)
+        {
+            <p> @index) @intrebare.Text </p>
+            <p style="display:none" id="1_@intrebare.IdIntrebare"></p>
+            <p style="display:none" id="2_@intrebare.IdIntrebare"></p>
+            <p style="display:none" id="3_@intrebare.IdIntrebare"></p>
+            <p style="display:none" id="4_@intrebare.IdIntrebare"></p>
 
-
-      @for (var i = 0; i < 10; i++)
-      {
-          using (Html.BeginForm(null, null, FormMethod.Post, new { id = "question_" + i }))
-          {
-            <p> Question </p>
-            for (var v = 1; v < 5; v++)
+            using (Html.BeginForm(null, null, FormMethod.Post, new { id = "question_" + intrebare.IdIntrebare }))
             {
-                @Html.CheckBox("group["+v+"]", new { id = v }) @v<br />
+
+                <input type="hidden" name="question_id" value="@intrebare.IdIntrebare" />
+                <input type="hidden" name="question_id" value="@Model.IdTest" />
+                <input type="hidden" name="question_id" value="@intrebare.IdIntrebare" />
+                index++;
+                
+                foreach (var c in @intrebare.VariantaRaspuns)
+                {
+                    if(@intrebare.Tip==1)
+                    { 
+                        <div>
+                            <label  id="ans_@c.IdRaspuns"style="display:inline-block" for="answer_@c.IdRaspuns"> <input style="width:auto; float: left;" type="radio" id="answer_@c.IdRaspuns" name="answer[]" value="@c.IdRaspuns" /> @c.Text<label>
+                        </div>
+                    }
+                    else
+                    { 
+                        <div>
+                            <label id="ans_@c.IdRaspuns"  style="display:inline-block" for="answer_@c.IdRaspuns"><input type="checkbox" id="answer_@c.IdRaspuns" name="answer[]" value="@c.IdRaspuns" />@c.Text </label>
+                        </div>
+                    }
+                }
+                <textarea required> Text </textarea><br>
+                <input type="button" value="Submit"  onclick="questionSubmit(this,@intrebare.IdIntrebare)" />
             }
-            var g = i;
-            <input type="button" value="Submit"  onclick="questionSubmit(this,@i)" />
-          }
-
-
-      }
+        }
 
 
 
 </section>
+<script>
+   test= @Model.IdTest
+    function startTimer(duration, display) {
+        var start = Date.now(),
+            diff,
+            minutes,
+            seconds;
+        function timer() {
+            // get the number of seconds that have elapsed since 
+            // startTimer() was called
+            diff = duration - (((Date.now() - start) / 1000) | 0);
+
+            // does the same job as parseInt truncates the float
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (diff <= 0) {
+                // add one second so that the count down starts at the full duration
+                // example 05:00 not 04:59
+                alert("TImpul a expirat!");
+                document.location.href = "/Quiz/Results?id="+test
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+        setInterval(timer, 1000);
+    }
+
+    window.onload = function () {
+        var fiveMinutes = 30 * 60,
+            display = document.querySelector('#time');
+        startTimer(fiveMinutes, display);
+    };
+    </script>

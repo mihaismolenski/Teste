@@ -1,0 +1,26 @@
+﻿@using Tema3Sem2.Models;
+@using Tema3Sem2.Models.DB;
+@model ResultModel
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Rezultate</h2>
+@{int index = 1;}
+@foreach (IntrebareResult intrebare in @Model.raspunsuri)
+{
+    <p> @index) @intrebare.text </p>
+    <p> @intrebare.Motivatie </p>
+    <p> @intrebare.valid </p>
+    int number = 1;
+    <p> Răspunsuri date de cursant: </p>
+    foreach (string raspuns in intrebare.raspunsuriCursant)
+    {
+        <p> @number. @raspuns </p>
+        number++;
+    }
+    index++;
+}
+
+    

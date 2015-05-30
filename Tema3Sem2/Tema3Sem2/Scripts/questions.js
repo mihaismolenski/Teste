@@ -19,6 +19,23 @@
     $('select#domeniu').on('change', function () {
         if ($(this).val() == "new") {
             $('#domeniu_block').show();
+        } else if ($(this).val() != '-') {      //a fost ales un domeniu
+            idDomeniu = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "/Insert/getSubdomenii",
+                data: { id: idDomeniu },
+                success: function (response) {
+                    response = JSON.parse(response);
+                    $.each(response, function (key, value) {
+                        if (key != "0")
+                            $('select#subdomeniu').append('<option value="' + key + '" >' + value + '</option>');
+                    });
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
         }
     });
 
@@ -30,11 +47,11 @@
             $.ajax({
                 type: "POST",
                 url: "/Insert/AddDomain",
-                data: '{domain: "' + domeniu + '" }',
+                data: {domain: domeniu },
                 success: function (response) {
                     console.log(response);
                     $('select#domeniu option').removeAttr('checked');
-                    $('select#domeniu').append('<option value="' + response + '" checked="checked">' + domeniu + '</option>');
+                    $('select#domeniu').append('<option value="' + response + '" selected="selected">' + domeniu + '</option>');
                     $('#domeniu_block').hide();
                 },
                 failure: function (response) {
@@ -47,7 +64,7 @@
     $('select#subdomeniu').on('change', function () {
         if ($(this).val() == "new") {
             $('#subdomeniu_block').show();
-        }
+        } 
     });
 
     $('#submit_subdomeniu').on('click', function (e) {
@@ -63,7 +80,7 @@
                 success: function (response) {
                     console.log(response);
                     $('select#domeniu option').removeAttr('checked');
-                    $('select#subdomeniu').append('<option value="' + response + '" checked="checked">' + subdomeniu + '</option>');
+                    $('select#subdomeniu').append('<option value="' + response + '" selected="selected">' + subdomeniu + '</option>');
                     $('#subdomeniu_block').hide();
                 },
                 failure: function (response) {

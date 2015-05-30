@@ -14,23 +14,40 @@ namespace Tema3Sem2.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-            Console.WriteLine(Request);
-            return View();
+            List<Domeniu> domenii = DomeniuHelper.GetDomenii();
+            CustomDomain customDomain = new CustomDomain();
+            customDomain.Domenii = DomeniuHelper.GetDomenii();
+            return View(customDomain);
+        }
+
+        [System.Web.Services.WebMethod]
+        public string getSubdomenii(string id)
+        {
+            List<Subdomeniu> subdomenii = SubdomeniuHelper.GetSubdomeniiByDomeniuId(Convert.ToInt32(id));
+            CustomDomain customDomain = new CustomDomain();
+            customDomain.SubDomeniu = SubdomeniuHelper.GetSubdomeniiByDomeniuId(Convert.ToInt32(id));
+            string [] myArray=new string [subdomenii.Count+1];
+            foreach(var sub in subdomenii ){
+                myArray[sub.IdSubdomeniu]= sub.Nume;
+            }
+            var jsonSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            string json = jsonSerializer.Serialize(myArray);
+            return json;
         }
 
         [System.Web.Services.WebMethod]
         public int AddDomain(string domain)
         {
-            //int id = DomeniuHelper.AdaugaDomeniu(domain, "");
-            int id = 1;
+            int id = DomeniuHelper.AdaugaDomeniu(domain, "");
+            //int id = 1;
             return id;
         }
 
         [System.Web.Services.WebMethod]
         public int AddSubDomain(string id, string subdomain)
         {
-            //int idSub = SubdomeniuHelper.AdaugaSubomeniu(id, subdomain, "");
-            int idSub = 1;
+            int idSub = SubdomeniuHelper.AdaugaSubomeniu(Convert.ToInt32(id), subdomain, "");
+            //int idSub = 1;
             return idSub;
         }
 
@@ -59,6 +76,7 @@ namespace Tema3Sem2.Controllers
                 {
                     //int id = Convert.ToInt32(Request.Form.Keys[i].Substring(8, Request.Form.GetValues(i)[0].Length));
                     varianta.Text = Request.Form.GetValues(i)[0];
+                    varianta.Motivatie = Request.Form.GetValues(Request.Form.Keys[i].Length - 1)[0];
                     if (Request.Form.Keys[i + 1].Contains("answer") == true)
                     {
                         varianta.Corect = true;
@@ -80,7 +98,7 @@ namespace Tema3Sem2.Controllers
             }
 
             
-            //IntrebariHelper.AdaugaIntrebare(idDomeniu, idSubdomeniu, titlu, tip, variante);
+            IntrebariHelper.AdaugaIntrebare(idDomeniu, idSubdomeniu, titlu, tip, variante);
             
             return View("~/Views/Insert/Index.cshtml"); 
         }
